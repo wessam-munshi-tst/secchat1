@@ -347,7 +347,12 @@ class TenantManager:
     def genai_client(self) -> genai.Client:
         """Lazy-initialized singleton Gemini client (shared across all tenants)."""
         if self._genai_client is None:
-            self._genai_client = genai.Client(api_key=settings.google_api_key)
+            # The Live API WebSocket lives on v1beta. Newer google-genai
+            # versions default to "v1", which makes Google answer HTTP 404.
+            self._genai_client = genai.Client(
+                api_key=settings.google_api_key,
+                http_options=types.HttpOptions(api_version="v1beta"),
+            )
             logger.info("Initialized Gemini client")
         return self._genai_client
     
