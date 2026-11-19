@@ -113,7 +113,7 @@
             }, 15000);
         }
 
-        //77 Poll server every 2 seconds for new image commands
+        // Poll server every 2 seconds for new image commands
         async function pollImage() {
             try {
                 const res = await fetch('/admin/current-image');
