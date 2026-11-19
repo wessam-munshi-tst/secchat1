@@ -280,11 +280,7 @@ function handleWebSocketMessage(event) {
             playAudioChunk(event.data);
         } else {
             const message = JSON.parse(event.data);
-            if (message.type === 'transcript') {
-                addTranscript(message.role, message.text);
-            } else if (message.type === 'turn_complete') {
-                endTranscriptTurn();
-            } else if (message.type === 'interrupt') {
+            if (message.type === 'interrupt') {
                 console.log('Received interrupt signal');
                 stopAudio();
             } else if (message.type === 'listen') {
@@ -368,51 +364,6 @@ function showTapHint() {
 function hideTapHint() {
     const el = document.getElementById('tapHint');
     if (el) el.style.display = 'none';
-}
-
-// =============================================================================
-// LIVE TRANSCRIPT (shows what was heard and what the bot says)
-// =============================================================================
-
-const transcriptState = {
-    currentRole: null,   // 'user' | 'bot'
-    currentBubble: null,
-    maxBubbles: 6
-};
-
-function addTranscript(role, text) {
-    const box = document.getElementById('transcript');
-    if (!box || !text) return;
-
-    // Start a new bubble when the speaker changes
-    if (transcriptState.currentRole !== role || !transcriptState.currentBubble) {
-        const bubble = document.createElement('div');
-        bubble.className = `bubble ${role}`;
-        const label = document.createElement('span');
-        label.className = 'bubble-label';
-        label.textContent = role === 'user' ? 'أنت' : 'الروبوت';
-        const body = document.createElement('span');
-        body.className = 'bubble-text';
-        bubble.appendChild(label);
-        bubble.appendChild(body);
-        box.appendChild(bubble);
-        transcriptState.currentRole = role;
-        transcriptState.currentBubble = body;
-
-        // Keep only the latest few bubbles on screen
-        while (box.children.length > transcriptState.maxBubbles) {
-            box.removeChild(box.firstChild);
-        }
-    }
-
-    transcriptState.currentBubble.textContent += text;
-    box.scrollTop = box.scrollHeight;
-}
-
-function endTranscriptTurn() {
-    // Next text (from either side) starts a fresh bubble
-    transcriptState.currentRole = null;
-    transcriptState.currentBubble = null;
 }
 
 async function setupAudioWorklet() {

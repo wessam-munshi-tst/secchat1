@@ -265,57 +265,6 @@ canvas {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* ===== Live transcript ===== */
-#transcript {
-    position: fixed;
-    left: 50%;
-    bottom: 80px;
-    transform: translateX(-50%);
-    width: min(90vw, 760px);
-    max-height: 38vh;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 500;
-    pointer-events: none;
-    scrollbar-width: none;
-}
-#transcript::-webkit-scrollbar { display: none; }
-
-#transcript .bubble {
-    direction: rtl;
-    text-align: right;
-    max-width: 85%;
-    padding: 10px 16px;
-    border-radius: 18px;
-    font-size: 1.25rem;
-    line-height: 1.6;
-    backdrop-filter: blur(6px);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
-    animation: bubbleIn 0.2s ease-out;
-}
-#transcript .bubble.user {
-    align-self: flex-start;          /* right side in RTL */
-    background: rgba(0, 119, 255, 0.85);
-    color: #fff;
-}
-#transcript .bubble.bot {
-    align-self: flex-end;            /* left side in RTL */
-    background: rgba(255, 255, 255, 0.9);
-    color: #2d3436;
-}
-#transcript .bubble-label {
-    display: block;
-    font-size: 0.8rem;
-    opacity: 0.75;
-    margin-bottom: 2px;
-}
-@keyframes bubbleIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
 /* ===== "Tap to start" hint ===== */
 #tapHint {
     display: none;
@@ -328,8 +277,4 @@ canvas {
     color: #fff;
     font-size: 1.8rem;
     cursor: pointer;
-}
-
-@media (max-width: 768px) {
-    #transcript .bubble { font-size: 1.05rem; }
 }
